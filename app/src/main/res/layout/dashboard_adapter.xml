@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/lib/com.app.plywood"
+    xmlns:app1="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.design.widget.FloatingActionButton
+            android:id="@+id/dash_iv_icon"
+            android:backgroundTint="@color/colorPrimaryDark"
+            android:layout_width="wrap_content"
+            app1:fabSize="auto"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_margin="@dimen/fab_margin"
+            app:src="@drawable/ic_sale" />
+        <TextView
+            android:id="@+id/dash_tv_title"
+            android:layout_marginTop="5dp"
+            android:gravity="center"
+            android:text="TITLE"
+            android:textSize="15sp"
+            android:fontFamily="@font/montser_bold"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+        </LinearLayout>
+</RelativeLayout>
