@@ -1,11 +1,15 @@
 package com.app.plywood.activity;
 
 import android.app.ActionBar;
+import android.app.AlertDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -22,7 +26,11 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.plywood.R;
+import com.app.plywood.adapter.AddAdapter;
+import com.app.plywood.data.AddProduct;
+import com.app.plywood.data.DashboardMenu;
 import com.app.plywood.helper.Constants;
+import com.libizo.CustomEditText;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -30,6 +38,7 @@ import org.json.JSONObject;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
@@ -44,14 +53,22 @@ import thebat.lib.validutil.ValidUtils;
 public class SaleActivity extends AppCompatActivity {
 
     Button btnGenerate;
+    public static int sumTotal=0;
     Spinner spinCustomer;
-    String spCustomer;
+    String spCustomer, strThick, strSize;
     TextView tvInvoice, tvDate;
-    ImageView ivInfo, ivDate;
+    ImageView ivInfo, ivDate, ivAdd;
     Calendar calendar;
-    List<String> customerList;
+    List<String> customerList, size_list, thick_list;
+    public static List<String> get_data;
     ArrayAdapter<String> customerAdapter;
     ValidUtils validUtils;
+    public static RecyclerView rvSale;
+    public static TextView tvNoProduct, tvTotal;
+    List<AddProduct> addList;
+    AddAdapter addAdapter;
+    RecyclerView.LayoutManager mLayoutManager;
+    AlertDialog addDialog;
     String COMPANY_URL = Constants.BASE_URL + Constants.GET_COMPANY;
     String CUSTOMER_URL = Constants.BASE_URL + Constants.GET_CUSTOMER;
 
@@ -77,9 +94,19 @@ public class SaleActivity extends AppCompatActivity {
         tvDate = findViewById(R.id.sale_tv_date);
         ivInfo = findViewById(R.id.sale_iv_edit);
         ivDate = findViewById(R.id.sales_iv_date);
+        ivAdd = findViewById(R.id.sales_iv_add);
+        tvTotal = findViewById(R.id.sale_tv_total);
+        tvNoProduct = findViewById(R.id.sale_tv_noproduct);
 
         validUtils = new ValidUtils();
         customerList = new ArrayList<>();
+
+        addList = new ArrayList<>();
+        addAdapter = new AddAdapter(this, addList);
+        rvSale = findViewById(R.id.rv_sale);
+        mLayoutManager = new LinearLayoutManager(this);
+        rvSale.setLayoutManager(mLayoutManager);
+        rvSale.setAdapter(addAdapter);
 
         invoiceNo();
         getCompany();
@@ -189,6 +216,137 @@ public class SaleActivity extends AppCompatActivity {
             }
         });
 
+        ivAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                final AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(SaleActivity.this);
+                LayoutInflater inflater = SaleActivity.this.getLayoutInflater();
+                final View dialogView = inflater.inflate(R.layout.add_dialog, null);
+                dialogBuilder.setView(dialogView);
+                dialogBuilder.setCancelable(false);
+
+                Button btnAdd = dialogView.findViewById(R.id.add_pro_btn);
+                ImageView ivClose = dialogView.findViewById(R.id.add_pro_close);
+                final Spinner spThick = dialogView.findViewById(R.id.add_pro_thick);
+                Spinner spSize = dialogView.findViewById(R.id.add_pro_size);
+                final CustomEditText etPrice = dialogView.findViewById(R.id.add_pro_price);
+                final CustomEditText etQuantity = dialogView.findViewById(R.id.add_pro_quantity);
+
+                addDialog = dialogBuilder.create();
+
+                String[] thick = new String[] {
+                        "18 mm",
+                        "15 mm",
+                        "12 mm",
+                        "9 mm",
+                        "6 mm"
+                };
+                thick_list = new ArrayList<String>(Arrays.asList(thick));
+                ArrayAdapter<String> thickAdapter = new ArrayAdapter<String>
+                        (SaleActivity.this, R.layout.spinner_layout, thick_list);
+                thickAdapter.setDropDownViewResource(R.layout.spinner_layout);
+                spThick.setAdapter(thickAdapter);
+                spThick.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                        strThick = adapterView.getItemAtPosition(pos).toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+                String[] size = new String[] {
+                        "8Ft x 4Ft",
+                        "8Ft x 3Ft",
+                        "7Ft x 4Ft",
+                        "7Ft x 3Ft",
+                        "6Ft x 4Ft",
+                        "6Ft x 3Ft"
+                };
+                size_list = new ArrayList<String>(Arrays.asList(size));
+                ArrayAdapter<String> sizeAdapter = new ArrayAdapter<String>
+                        (SaleActivity.this, R.layout.spinner_layout, size_list);
+                sizeAdapter.setDropDownViewResource(R.layout.spinner_layout);
+                spSize.setAdapter(sizeAdapter);
+                spSize.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
+                        strSize = adapterView.getItemAtPosition(pos).toString();
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> adapterView) {
+
+                    }
+                });
+
+                btnAdd.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                        if (validUtils.validateEditTexts(etPrice, etQuantity)){
+                            String price = etPrice.getText().toString().trim();
+                            String quantity = etQuantity.getText().toString().trim();
+                            int total = 0;
+                            if (strSize.equalsIgnoreCase("8Ft x 4Ft")){
+                                total = (Integer.parseInt(price) * 32) * Integer.parseInt(quantity);
+                            }
+                            else if (strSize.equalsIgnoreCase("8Ft x 3Ft")){
+                                total = (Integer.parseInt(price) * 24) * Integer.parseInt(quantity);
+                            }
+                            else if (strSize.equalsIgnoreCase("7Ft x 4Ft")){
+                                total = (Integer.parseInt(price) * 28) * Integer.parseInt(quantity);
+                            }
+                            else if (strSize.equalsIgnoreCase("7Ft x 3Ft")){
+                                total = (Integer.parseInt(price) * 21) * Integer.parseInt(quantity);
+                            }
+                            else if (strSize.equalsIgnoreCase("6Ft x 4Ft")){
+                                total = (Integer.parseInt(price) * 24) * Integer.parseInt(quantity);
+                            }
+                            else if (strSize.equalsIgnoreCase("6Ft x 3Ft")){
+                                total = (Integer.parseInt(price) * 18) * Integer.parseInt(quantity);
+                            }
+
+                            add(strThick, strSize, total, quantity);
+                        }else {
+                            validUtils.showToast(SaleActivity.this, "Feilds are Empty");
+                        }
+                    }
+                });
+                ivClose.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+
+                        addDialog.dismiss();
+                    }
+                });
+                addDialog.show();
+
+            }
+        });
+
+    }
+
+    private void add(String thick, String size, int price, String quantity) {
+
+        AddProduct product = new AddProduct(thick, size, price, quantity);
+        addList.add(product);
+        addAdapter.notifyDataSetChanged();
+
+        sumTotal = addAdapter.grandTotal(addList);
+        validUtils.showToast(SaleActivity.this, String.valueOf(sumTotal));
+        tvTotal.setText(String.valueOf(sumTotal));
+
+        get_data = new ArrayList<String>(Arrays.asList(addAdapter.getData(addList)));
+        validUtils.showToast(SaleActivity.this, String.valueOf(get_data));
+
+        if (addList.size() > 0){
+            rvSale.setVisibility(View.VISIBLE);
+            tvNoProduct.setVisibility(View.GONE);
+        }
     }
 
     private void getCompany() {

@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_add"
+        app:cardBackgroundColor="@color/colorPrimaryDark"
+        android:elevation="3dp"
+        app:cardMaxElevation="3dp"
+        app:cardUseCompatPadding="true"
+        android:layout_margin="5dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp">
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/add_tv_thick"
+                android:gravity="center"
+                android:fontFamily="@font/montser_bold"
+                android:layout_weight="1"
+                android:text="18mm"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/add_tv_size"
+                android:gravity="center"
+                android:fontFamily="@font/montser_bold"
+                android:layout_weight="1"
+                android:text="8Ft x 4Ft"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+            <TextView
+                android:id="@+id/add_tv_quantity"
+                android:gravity="center"
+                android:fontFamily="@font/montser_bold"
+                android:layout_weight="1"
+                android:text="50"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</RelativeLayout>
