@@ -14,4 +14,6 @@ public class Constants {
     public static String GET_COMPANY = "get_company.php?";
     public static String GET_CUSTOMER = "get_customer_profile.php?";
     public static String EDIT_CUSTOMER = "edit_customer.php?";
+    public static String ADD_INVOICE = "add_invoice.php?";
+    public static String REMOVE_INVOICE = "remove_invoice.php?";
 }

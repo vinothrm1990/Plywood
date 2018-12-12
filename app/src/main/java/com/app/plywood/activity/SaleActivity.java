@@ -2,6 +2,7 @@ package com.app.plywood.activity;
 
 import android.app.ActionBar;
 import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
@@ -14,6 +15,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.Spinner;
@@ -69,8 +71,10 @@ public class SaleActivity extends AppCompatActivity {
     AddAdapter addAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     AlertDialog addDialog;
+    public static String invoice, thick;
     String COMPANY_URL = Constants.BASE_URL + Constants.GET_COMPANY;
     String CUSTOMER_URL = Constants.BASE_URL + Constants.GET_CUSTOMER;
+    String ADD_INVOICE_URL = Constants.BASE_URL + Constants.ADD_INVOICE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +115,8 @@ public class SaleActivity extends AppCompatActivity {
         invoiceNo();
         getCompany();
 
+        invoice = tvInvoice.getText().toString().trim();
+
         customerAdapter = new ArrayAdapter<String>(this, R.layout.spinner_layout, customerList);
         customerAdapter.setDropDownViewResource(R.layout.spinner_layout);
         spinCustomer.setAdapter(customerAdapter);
@@ -132,6 +138,33 @@ public class SaleActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String cDate = sdf.format(ccalendar.getTime());
         tvDate.setText(cDate);
+
+        calendar =  Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener date = new DatePickerDialog.OnDateSetListener() {
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear,
+                                  int dayOfMonth) {
+
+                calendar.set(Calendar.YEAR, year);
+                calendar.set(Calendar.MONTH, monthOfYear);
+                calendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                setDateFormat();
+            }
+
+        };
+
+        ivDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+                new DatePickerDialog(SaleActivity.this, date, calendar
+                        .get(Calendar.YEAR), calendar.get(Calendar.MONTH),
+                        calendar.get(Calendar.DAY_OF_MONTH)).show();
+            }
+        });
 
         ivInfo.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -310,7 +343,7 @@ public class SaleActivity extends AppCompatActivity {
                                 total = (Integer.parseInt(price) * 18) * Integer.parseInt(quantity);
                             }
 
-                            add(strThick, strSize, total, quantity);
+                            add(strThick, strSize, total, quantity, price);
                         }else {
                             validUtils.showToast(SaleActivity.this, "Feilds are Empty");
                         }
@@ -330,7 +363,7 @@ public class SaleActivity extends AppCompatActivity {
 
     }
 
-    private void add(String thick, String size, int price, String quantity) {
+    private void add(String thick, String size, int price, String quantity, String uprice) {
 
         AddProduct product = new AddProduct(thick, size, price, quantity);
         addList.add(product);
@@ -339,14 +372,81 @@ public class SaleActivity extends AppCompatActivity {
         sumTotal = addAdapter.grandTotal(addList);
         validUtils.showToast(SaleActivity.this, String.valueOf(sumTotal));
         tvTotal.setText(String.valueOf(sumTotal));
-
-        get_data = new ArrayList<String>(Arrays.asList(addAdapter.getData(addList)));
-        validUtils.showToast(SaleActivity.this, String.valueOf(get_data));
-
+        
         if (addList.size() > 0){
             rvSale.setVisibility(View.VISIBLE);
             tvNoProduct.setVisibility(View.GONE);
         }
+
+        addBill(thick, uprice, size, quantity, String.valueOf(price));
+    }
+
+    private void addBill(final String thick, final String price, final String size, final String quantity, final String total) {
+
+        validUtils.showProgressDialog(this, this);
+        StringRequest request = new StringRequest(Request.Method.POST, ADD_INVOICE_URL,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                            jsonObject = new JSONObject(response);
+
+                            if (jsonObject.getString("status")
+                                    .equalsIgnoreCase("success")){
+
+                                validUtils.hideProgressDialog();
+                                validUtils.showToast(SaleActivity.this, jsonObject.getString("message"));
+
+                            }else if (jsonObject.getString("status")
+                                    .equalsIgnoreCase("failed")){
+                                validUtils.hideProgressDialog();
+                                validUtils.showToast(SaleActivity.this, jsonObject.getString("message"));
+
+                            }else {
+                                validUtils.hideProgressDialog();
+                                validUtils.showToast(SaleActivity.this, "Something went wrong");
+                            }
+
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                            validUtils.hideProgressDialog();
+                            validUtils.showToast(SaleActivity.this, e.getMessage());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        validUtils.hideProgressDialog();
+                        validUtils.showToast(SaleActivity.this, error.getMessage());
+                    }
+                })
+
+        {
+
+            @Override
+            protected Map<String, String> getParams() {
+                String date = tvDate.getText().toString().trim();
+                String invoice = tvInvoice.getText().toString().trim();
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("date", date);
+                params.put("invoice", invoice);
+                params.put("customer", spCustomer);
+                params.put("thickness", thick);
+                params.put("price", price);
+                params.put("size", size);
+                params.put("quantity", quantity);
+                params.put("subtotal", total);
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(SaleActivity.this);
+        queue.add(request);
     }
 
     private void getCompany() {
