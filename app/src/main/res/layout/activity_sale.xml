@@ -209,6 +209,26 @@
                         android:layout_width="match_parent"
                         android:layout_height="40dp" />
                 </LinearLayout>
+                <LinearLayout
+                    android:layout_marginBottom="10dp"
+                    android:layout_marginTop="25dp"
+                    android:layout_marginLeft="50dp"
+                    android:gravity="center"
+                    android:layout_marginRight="50dp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <Button
+                        android:layout_margin="5dp"
+                        android:id="@+id/sale_btn_generate"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:text="GENERATE"
+                        android:background="@drawable/button_bg"
+                        android:textStyle="bold"
+                        android:fontFamily="@font/montser_bold"
+                        android:textColor="#FFFFFF"
+                        android:textSize="20sp"/>
+                </LinearLayout>
             </LinearLayout>
         </RelativeLayout>
     </ScrollView>

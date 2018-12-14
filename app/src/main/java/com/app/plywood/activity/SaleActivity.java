@@ -4,12 +4,16 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.Build;
+import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -32,6 +36,7 @@ import com.app.plywood.adapter.AddAdapter;
 import com.app.plywood.data.AddProduct;
 import com.app.plywood.data.DashboardMenu;
 import com.app.plywood.helper.Constants;
+import com.app.plywood.helper.PDFCreator;
 import com.libizo.CustomEditText;
 
 import org.json.JSONArray;
@@ -52,7 +57,7 @@ import java.util.Random;
 import spencerstudios.com.bungeelib.Bungee;
 import thebat.lib.validutil.ValidUtils;
 
-public class SaleActivity extends AppCompatActivity {
+public class SaleActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     Button btnGenerate;
     public static int sumTotal=0;
@@ -71,10 +76,11 @@ public class SaleActivity extends AppCompatActivity {
     AddAdapter addAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     AlertDialog addDialog;
-    public static String invoice, thick;
+    public static String invoice, thick, cdate;
     String COMPANY_URL = Constants.BASE_URL + Constants.GET_COMPANY;
     String CUSTOMER_URL = Constants.BASE_URL + Constants.GET_CUSTOMER;
     String ADD_INVOICE_URL = Constants.BASE_URL + Constants.ADD_INVOICE;
+    String GEN_INVOICE_URL = Constants.BASE_URL + Constants.GENERATE_INVOICE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -101,6 +107,7 @@ public class SaleActivity extends AppCompatActivity {
         ivAdd = findViewById(R.id.sales_iv_add);
         tvTotal = findViewById(R.id.sale_tv_total);
         tvNoProduct = findViewById(R.id.sale_tv_noproduct);
+        btnGenerate = findViewById(R.id.sale_btn_generate);
 
         validUtils = new ValidUtils();
         customerList = new ArrayList<>();
@@ -138,6 +145,7 @@ public class SaleActivity extends AppCompatActivity {
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         String cDate = sdf.format(ccalendar.getTime());
         tvDate.setText(cDate);
+        cdate = tvDate.getText().toString().trim();
 
         calendar =  Calendar.getInstance();
 
@@ -187,6 +195,15 @@ public class SaleActivity extends AppCompatActivity {
                                         String data = jsonObject.getString("data");
                                         JSONArray array = new JSONArray(data);
                                         JSONObject object = array.getJSONObject(0);
+
+                                        Constants.editor.putString("name", object.getString("c_name"));
+                                        Constants.editor.putString("address", object.getString("address"));
+                                        Constants.editor.putString("city", object.getString("city"));
+                                        Constants.editor.putString("state", object.getString("state"));
+                                        Constants.editor.putString("mobile", object.getString("mobile"));
+                                        Constants.editor.apply();
+                                        Constants.editor.commit();
+
 
                                         Intent intent = new Intent(SaleActivity.this, CustomerDetailActivity.class);
                                         Bundle bundle = new Bundle();
@@ -361,6 +378,24 @@ public class SaleActivity extends AppCompatActivity {
             }
         });
 
+        btnGenerate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+               Intent intent = new Intent(SaleActivity.this, GenerateActivity.class);
+               intent.putExtra("customer", spCustomer);
+               intent.putExtra("invoice", invoice);
+               intent.putExtra("date", cdate);
+               startActivity(intent);
+
+            }
+        });
+
+    }
+
+    private void getCustomer() {
+
+
     }
 
     private void add(String thick, String size, int price, String quantity, String uprice) {
@@ -372,7 +407,7 @@ public class SaleActivity extends AppCompatActivity {
         sumTotal = addAdapter.grandTotal(addList);
         validUtils.showToast(SaleActivity.this, String.valueOf(sumTotal));
         tvTotal.setText(String.valueOf(sumTotal));
-        
+
         if (addList.size() > 0){
             rvSale.setVisibility(View.VISIBLE);
             tvNoProduct.setVisibility(View.GONE);
@@ -430,9 +465,8 @@ public class SaleActivity extends AppCompatActivity {
 
             @Override
             protected Map<String, String> getParams() {
-                String date = tvDate.getText().toString().trim();
                 String invoice = tvInvoice.getText().toString().trim();
-
+                String date = tvDate.getText().toString().trim();
                 Map<String, String> params = new HashMap<String, String>();
                 params.put("date", date);
                 params.put("invoice", invoice);
@@ -465,7 +499,7 @@ public class SaleActivity extends AppCompatActivity {
                                     .equalsIgnoreCase("success")){
                                 String data = jsonObject.getString("data");
                                 validUtils.hideProgressDialog();
-
+                                getCustomer();
                                 JSONArray array = new JSONArray(data);
 
                                 for (int i = 0; i < array.length(); i++) {
@@ -531,5 +565,7 @@ public class SaleActivity extends AppCompatActivity {
         String myFormat = "dd/MM/yyyy"; //In which you need put here
         SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.US);
         tvDate.setText(sdf.format(calendar.getTime()));
+        cdate = tvDate.getText().toString().trim();
     }
+
 }
