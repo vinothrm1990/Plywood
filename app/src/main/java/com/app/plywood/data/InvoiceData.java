@@ -1,6 +1,6 @@
 package com.app.plywood.data;
 
-public class AddProduct {
+public class InvoiceData {
 
     private int id;
     private String thick;
@@ -9,7 +9,7 @@ public class AddProduct {
     private String quantity;
 
 
-    public AddProduct(int id, String thick, String size, int price, String quantity) {
+    public InvoiceData(int id, String thick, String size, int price, String quantity) {
         this.id = id;
         this.thick = thick;
         this.size = size;

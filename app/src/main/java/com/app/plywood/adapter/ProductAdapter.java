@@ -9,39 +9,36 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.app.plywood.R;
-import com.app.plywood.activity.CustomerActivity;
-import com.app.plywood.activity.SaleActivity;
-import com.app.plywood.activity.ProductActivity;
-import com.app.plywood.data.DashboardMenu;
+import com.app.plywood.activity.AddProductActivity;
+import com.app.plywood.activity.ListProductActivity;
+import com.app.plywood.data.ProductMenu;
 import com.bumptech.glide.Glide;
-
 import java.util.List;
+
 import spencerstudios.com.bungeelib.Bungee;
 
-public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyViewHolder> {
+public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHolder> {
 
     Context mContext;
-    List<DashboardMenu> dashList;
+    List<ProductMenu> proList;
 
-    public DashboardAdapter(Context mContext, List<DashboardMenu> dashList) {
+    public ProductAdapter(Context mContext, List<ProductMenu> proList) {
         this.mContext = mContext;
-        this.dashList = dashList;
+        this.proList = proList;
     }
 
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
-
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.dashboard_adapter, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.product_adapter, viewGroup, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
 
-        DashboardMenu menu = dashList.get(i);
+        ProductMenu menu = proList.get(i);
 
         myViewHolder.tvTitle.setText(menu.getTitle());
         Glide.with(mContext).load(menu.getImage()).into(myViewHolder.ivIcon);
@@ -51,21 +48,11 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
             public void onClick(View v) {
 
                 if (i == 0){
-                    mContext.startActivity(new Intent(mContext, ProductActivity.class));
+                    mContext.startActivity(new Intent(mContext, AddProductActivity.class));
                     Bungee.shrink(mContext);
-                }
-                else if (i == 1){
-                    mContext.startActivity(new Intent(mContext, SaleActivity.class));
+                }else if (i == 1){
+                    mContext.startActivity(new Intent(mContext, ListProductActivity.class));
                     Bungee.shrink(mContext);
-                }else if (i == 2){
-
-                }else if (i == 3){
-                    mContext.startActivity(new Intent(mContext, CustomerActivity.class));
-                    Bungee.shrink(mContext);
-                }else if (i == 4){
-
-                }else if (i == 5){
-
                 }
             }
         });
@@ -73,7 +60,7 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
 
     @Override
     public int getItemCount() {
-        return dashList.size();
+        return proList.size();
     }
 
     public class MyViewHolder extends RecyclerView.ViewHolder {
@@ -84,8 +71,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvTitle = itemView.findViewById(R.id.dash_tv_title);
-            ivIcon = itemView.findViewById(R.id.dash_iv_icon);
+            tvTitle = itemView.findViewById(R.id.stock_tv_title);
+            ivIcon = itemView.findViewById(R.id.stock_iv_icon);
         }
     }
 }

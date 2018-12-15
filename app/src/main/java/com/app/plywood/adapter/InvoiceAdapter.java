@@ -16,7 +16,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.plywood.R;
-import com.app.plywood.data.AddProduct;
+import com.app.plywood.data.InvoiceData;
 import com.app.plywood.helper.Constants;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,15 +32,15 @@ import static com.app.plywood.activity.SaleActivity.thick;
 import static com.app.plywood.activity.SaleActivity.tvNoProduct;
 import static com.app.plywood.activity.SaleActivity.tvTotal;
 
-public class AddAdapter extends RecyclerView.Adapter<AddAdapter.MyViewHolder> {
+public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.MyViewHolder> {
 
     Context mContext;
-    List<AddProduct> addList;
+    List<InvoiceData> addList;
     ValidUtils validUtils;
     int id;
     String REMOVE_INVOICE_URL = Constants.BASE_URL + Constants.REMOVE_INVOICE;
 
-    public AddAdapter(Context mContext, List<AddProduct> addList) {
+    public InvoiceAdapter(Context mContext, List<InvoiceData> addList) {
         this.mContext = mContext;
         this.addList = addList;
     }
@@ -49,14 +49,14 @@ public class AddAdapter extends RecyclerView.Adapter<AddAdapter.MyViewHolder> {
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup viewGroup, int i) {
 
-        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.add_adapter, viewGroup, false);
+        View itemView = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.invoice_adapter, viewGroup, false);
         return new MyViewHolder(itemView);
     }
 
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder myViewHolder, final int i) {
 
-        final AddProduct product = addList.get(i);
+        final InvoiceData product = addList.get(i);
 
         myViewHolder.tvThick.setText(product.getThick());
         myViewHolder.tvSize.setText(product.getSize());
@@ -149,7 +149,7 @@ public class AddAdapter extends RecyclerView.Adapter<AddAdapter.MyViewHolder> {
 
     }
 
-    public int grandTotal(List<AddProduct> lists) {
+    public int grandTotal(List<InvoiceData> lists) {
         int totalPrice = 0;
         for (int i = 0; i < lists.size(); i++) {
             totalPrice += lists.get(i).getPrice();

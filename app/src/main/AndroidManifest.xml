@@ -35,7 +35,12 @@
         <activity
             android:name=".activity.GenerateActivity"
             android:parentActivityName=".activity.SaleActivity" />
-        <activity android:name=".activity.CustomerActivity"></activity>
+        <activity android:name=".activity.CustomerActivity" />
+        <activity
+            android:name=".activity.ProductActivity"
+            android:parentActivityName=".activity.HomeActivity" />
+        <activity android:name=".activity.AddProductActivity" />
+        <activity android:name=".activity.ListProductActivity"></activity>
     </application>
 
 </manifest>

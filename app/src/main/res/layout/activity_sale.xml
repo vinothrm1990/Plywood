@@ -30,6 +30,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:textColor="#000"
                             android:gravity="left"
                             android:text="Invoice No :"
                             android:textSize="16sp"
@@ -92,12 +93,13 @@
                             android:layout_margin="5dp"
                            android:src="@drawable/ic_add"/>
                         <TextView
+                            android:textColor="#000"
                             android:layout_margin="5dp"
                             android:text="Add Products"
                             android:layout_gravity="center"
                             android:gravity="center"
                             android:textSize="16sp"
-                            android:fontFamily="@font/montser_regular"
+                            android:fontFamily="@font/montser_bold"
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
@@ -141,6 +143,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
                         <TextView
+                            android:textColor="#000"
                             android:gravity="center"
                             android:fontFamily="@font/montser_bold"
                             android:textSize="16sp"
@@ -149,6 +152,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                         <TextView
+                            android:textColor="#000"
                             android:gravity="center"
                             android:fontFamily="@font/montser_bold"
                             android:textSize="16sp"
@@ -157,6 +161,7 @@
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />
                         <TextView
+                            android:textColor="#000"
                             android:gravity="center"
                             android:fontFamily="@font/montser_bold"
                             android:textSize="16sp"

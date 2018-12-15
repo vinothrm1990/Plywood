@@ -29,8 +29,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.plywood.R;
-import com.app.plywood.adapter.AddAdapter;
-import com.app.plywood.data.AddProduct;
+import com.app.plywood.adapter.InvoiceAdapter;
+import com.app.plywood.data.InvoiceData;
 import com.app.plywood.helper.Constants;
 import com.libizo.CustomEditText;
 
@@ -55,7 +55,7 @@ import thebat.lib.validutil.ValidUtils;
 public class SaleActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     Button btnGenerate;
-    int id=1;
+    int id=0;
     public static int sumTotal=0;
     Spinner spinCustomer;
     String spCustomer, strThick, strSize;
@@ -68,8 +68,8 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
     ValidUtils validUtils;
     public static RecyclerView rvSale;
     public static TextView tvNoProduct, tvTotal;
-    List<AddProduct> addList;
-    AddAdapter addAdapter;
+    List<InvoiceData> addList;
+    InvoiceAdapter invoiceAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     AlertDialog addDialog;
     public static String invoice, thick, cdate, size;
@@ -109,11 +109,11 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
         customerList = new ArrayList<>();
 
         addList = new ArrayList<>();
-        addAdapter = new AddAdapter(this, addList);
+        invoiceAdapter = new InvoiceAdapter(this, addList);
         rvSale = findViewById(R.id.rv_sale);
         mLayoutManager = new LinearLayoutManager(this);
         rvSale.setLayoutManager(mLayoutManager);
-        rvSale.setAdapter(addAdapter);
+        rvSale.setAdapter(invoiceAdapter);
 
         invoiceNo();
         getCompany();
@@ -392,11 +392,11 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
 
     private void add(int id, String thick, String size, int price, String quantity, String uprice) {
 
-        AddProduct product = new AddProduct(id, thick, size, price, quantity);
+        InvoiceData product = new InvoiceData(id, thick, size, price, quantity);
         addList.add(product);
-        addAdapter.notifyDataSetChanged();
+        invoiceAdapter.notifyDataSetChanged();
 
-        sumTotal = addAdapter.grandTotal(addList);
+        sumTotal = invoiceAdapter.grandTotal(addList);
         //validUtils.showToast(SaleActivity.this, String.valueOf(sumTotal));
         tvTotal.setText(String.valueOf(sumTotal));
 

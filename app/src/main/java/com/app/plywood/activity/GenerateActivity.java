@@ -187,7 +187,7 @@ public class GenerateActivity extends AppCompatActivity {
         PrintDocumentAdapter printAdapter = webView.createPrintDocumentAdapter();
 
         //provide name to your newly generated pdf file
-        String jobName = "@strings/appname" + invoice;
+        String jobName = Constants.pref.getString("name", "") + invoice;
 
         //open print dialog
         printManager.print(jobName, printAdapter, new PrintAttributes.Builder().build());
