@@ -33,9 +33,9 @@
             android:name=".activity.CustomerDetailActivity"
             android:parentActivityName=".activity.SaleActivity" />
         <activity
-            android:name=".activity.InvoiceActivity"
+            android:name=".activity.GenerateActivity"
             android:parentActivityName=".activity.SaleActivity" />
-        <activity android:name=".activity.GenerateActivity"></activity>
+        <activity android:name=".activity.CustomerActivity"></activity>
     </application>
 
 </manifest>

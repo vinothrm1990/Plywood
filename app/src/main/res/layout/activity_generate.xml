@@ -12,6 +12,7 @@
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab_print"
+        android:backgroundTint="@color/colorAccentButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"

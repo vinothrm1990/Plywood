@@ -4,16 +4,13 @@ import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.os.Build;
 import android.support.v4.app.ActivityCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -34,9 +31,7 @@ import com.android.volley.toolbox.Volley;
 import com.app.plywood.R;
 import com.app.plywood.adapter.AddAdapter;
 import com.app.plywood.data.AddProduct;
-import com.app.plywood.data.DashboardMenu;
 import com.app.plywood.helper.Constants;
-import com.app.plywood.helper.PDFCreator;
 import com.libizo.CustomEditText;
 
 import org.json.JSONArray;
@@ -60,6 +55,7 @@ import thebat.lib.validutil.ValidUtils;
 public class SaleActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
     Button btnGenerate;
+    int id=1;
     public static int sumTotal=0;
     Spinner spinCustomer;
     String spCustomer, strThick, strSize;
@@ -76,11 +72,11 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
     AddAdapter addAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     AlertDialog addDialog;
-    public static String invoice, thick, cdate;
+    public static String invoice, thick, cdate, size;
     String COMPANY_URL = Constants.BASE_URL + Constants.GET_COMPANY;
     String CUSTOMER_URL = Constants.BASE_URL + Constants.GET_CUSTOMER;
     String ADD_INVOICE_URL = Constants.BASE_URL + Constants.ADD_INVOICE;
-    String GEN_INVOICE_URL = Constants.BASE_URL + Constants.GENERATE_INVOICE;
+    //String GEN_INVOICE_URL = Constants.BASE_URL + Constants.GENERATE_INVOICE;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -359,8 +355,8 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
                             else if (strSize.equalsIgnoreCase("6Ft x 3Ft")){
                                 total = (Integer.parseInt(price) * 18) * Integer.parseInt(quantity);
                             }
-
-                            add(strThick, strSize, total, quantity, price);
+                            id++;
+                            add(id, strThick, strSize, total, quantity, price);
                         }else {
                             validUtils.showToast(SaleActivity.this, "Feilds are Empty");
                         }
@@ -386,6 +382,7 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
                intent.putExtra("customer", spCustomer);
                intent.putExtra("invoice", invoice);
                intent.putExtra("date", cdate);
+               intent.putExtra("subtotal", String.valueOf(sumTotal));
                startActivity(intent);
 
             }
@@ -393,19 +390,14 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
 
     }
 
-    private void getCustomer() {
+    private void add(int id, String thick, String size, int price, String quantity, String uprice) {
 
-
-    }
-
-    private void add(String thick, String size, int price, String quantity, String uprice) {
-
-        AddProduct product = new AddProduct(thick, size, price, quantity);
+        AddProduct product = new AddProduct(id, thick, size, price, quantity);
         addList.add(product);
         addAdapter.notifyDataSetChanged();
 
         sumTotal = addAdapter.grandTotal(addList);
-        validUtils.showToast(SaleActivity.this, String.valueOf(sumTotal));
+        //validUtils.showToast(SaleActivity.this, String.valueOf(sumTotal));
         tvTotal.setText(String.valueOf(sumTotal));
 
         if (addList.size() > 0){
@@ -413,10 +405,10 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
             tvNoProduct.setVisibility(View.GONE);
         }
 
-        addBill(thick, uprice, size, quantity, String.valueOf(price));
+        addBill(id, thick, uprice, size, quantity, String.valueOf(price));
     }
 
-    private void addBill(final String thick, final String price, final String size, final String quantity, final String total) {
+    private void addBill(final int id, final String thick, final String price, final String size, final String quantity, final String total) {
 
         validUtils.showProgressDialog(this, this);
         StringRequest request = new StringRequest(Request.Method.POST, ADD_INVOICE_URL,
@@ -468,6 +460,7 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
                 String invoice = tvInvoice.getText().toString().trim();
                 String date = tvDate.getText().toString().trim();
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(id));
                 params.put("date", date);
                 params.put("invoice", invoice);
                 params.put("customer", spCustomer);
@@ -499,7 +492,7 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
                                     .equalsIgnoreCase("success")){
                                 String data = jsonObject.getString("data");
                                 validUtils.hideProgressDialog();
-                                getCustomer();
+
                                 JSONArray array = new JSONArray(data);
 
                                 for (int i = 0; i < array.length(); i++) {

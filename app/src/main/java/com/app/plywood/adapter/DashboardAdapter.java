@@ -13,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.app.plywood.R;
+import com.app.plywood.activity.CustomerActivity;
 import com.app.plywood.activity.SaleActivity;
 import com.app.plywood.data.DashboardMenu;
 import com.bumptech.glide.Glide;
@@ -50,9 +51,21 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
             @Override
             public void onClick(View v) {
 
-                if (i == 1){
+                if (i == 0){
+
+                }
+                else if (i == 1){
                     mContext.startActivity(new Intent(mContext, SaleActivity.class));
                     Bungee.shrink(mContext);
+                }else if (i == 2){
+
+                }else if (i == 3){
+                    mContext.startActivity(new Intent(mContext, CustomerActivity.class));
+                    Bungee.shrink(mContext);
+                }else if (i == 4){
+
+                }else if (i == 5){
+
                 }
             }
         });

@@ -9,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -17,23 +16,17 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.app.plywood.R;
-import com.app.plywood.activity.SaleActivity;
 import com.app.plywood.data.AddProduct;
 import com.app.plywood.helper.Constants;
-
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import thebat.lib.validutil.ValidUtils;
-import static com.app.plywood.activity.SaleActivity.get_data;
 import static com.app.plywood.activity.SaleActivity.invoice;
 import static com.app.plywood.activity.SaleActivity.rvSale;
+import static com.app.plywood.activity.SaleActivity.size;
 import static com.app.plywood.activity.SaleActivity.sumTotal;
 import static com.app.plywood.activity.SaleActivity.thick;
 import static com.app.plywood.activity.SaleActivity.tvNoProduct;
@@ -43,8 +36,8 @@ public class AddAdapter extends RecyclerView.Adapter<AddAdapter.MyViewHolder> {
 
     Context mContext;
     List<AddProduct> addList;
-    List<String> data;
     ValidUtils validUtils;
+    int id;
     String REMOVE_INVOICE_URL = Constants.BASE_URL + Constants.REMOVE_INVOICE;
 
     public AddAdapter(Context mContext, List<AddProduct> addList) {
@@ -80,7 +73,9 @@ public class AddAdapter extends RecyclerView.Adapter<AddAdapter.MyViewHolder> {
                 sumTotal = grandTotal(addList);
                 tvTotal.setText(String.valueOf(sumTotal));
                 thick = product.getThick();
-                removeBill(invoice, thick);
+                size = product.getSize();
+                id = product.getId();
+                removeBill(id, invoice, thick, size);
                 if (addList.size() == 0){
                     rvSale.setVisibility(View.GONE);
                     tvNoProduct.setVisibility(View.VISIBLE);
@@ -91,7 +86,7 @@ public class AddAdapter extends RecyclerView.Adapter<AddAdapter.MyViewHolder> {
 
     }
 
-    private void removeBill(final String invoice, final String thick) {
+    private void removeBill(final int id, final String invoice, final String thick, final String size) {
 
         validUtils = new ValidUtils();
         validUtils.showProgressDialog(mContext, (Activity) mContext);
@@ -142,8 +137,10 @@ public class AddAdapter extends RecyclerView.Adapter<AddAdapter.MyViewHolder> {
             @Override
             protected Map<String, String> getParams() {
                 Map<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(id));
                 params.put("invoice", invoice);
                 params.put("thickness", thick);
+                params.put("size", size);
                 return params;
             }
         };

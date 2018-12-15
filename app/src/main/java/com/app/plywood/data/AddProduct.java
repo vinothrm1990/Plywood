@@ -2,17 +2,23 @@ package com.app.plywood.data;
 
 public class AddProduct {
 
+    private int id;
     private String thick;
     private String size;
     private int price;
     private String quantity;
 
 
-    public AddProduct(String thick, String size, int price, String quantity) {
+    public AddProduct(int id, String thick, String size, int price, String quantity) {
+        this.id = id;
         this.thick = thick;
         this.size = size;
         this.price = price;
         this.quantity = quantity;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getThick() {
@@ -23,11 +29,11 @@ public class AddProduct {
         return size;
     }
 
-    public String getQuantity() {
-        return quantity;
-    }
-
     public int getPrice() {
         return price;
+    }
+
+    public String getQuantity() {
+        return quantity;
     }
 }
