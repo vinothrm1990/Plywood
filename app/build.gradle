@@ -38,4 +38,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     implementation 'com.itextpdf:itextpdf:5.5.13'
     implementation 'com.github.barteksc:android-pdf-viewer:2.8.2'
+    implementation 'com.github.shadowalker77:wp7progressbar:1.0.5'
+
 }

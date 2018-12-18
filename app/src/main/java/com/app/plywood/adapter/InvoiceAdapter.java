@@ -24,6 +24,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import thebat.lib.validutil.ValidUtils;
+import static com.app.plywood.activity.SaleActivity.quantity;
 import static com.app.plywood.activity.SaleActivity.invoice;
 import static com.app.plywood.activity.SaleActivity.rvSale;
 import static com.app.plywood.activity.SaleActivity.size;
@@ -72,10 +73,11 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.MyViewHo
                 notifyDataSetChanged();
                 sumTotal = grandTotal(addList);
                 tvTotal.setText(String.valueOf(sumTotal));
+                quantity = product.getQuantity();
                 thick = product.getThick();
                 size = product.getSize();
                 id = product.getId();
-                removeBill(id, invoice, thick, size);
+                removeBill(id, invoice, thick, size, quantity);
                 if (addList.size() == 0){
                     rvSale.setVisibility(View.GONE);
                     tvNoProduct.setVisibility(View.VISIBLE);
@@ -86,7 +88,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.MyViewHo
 
     }
 
-    private void removeBill(final int id, final String invoice, final String thick, final String size) {
+    private void removeBill(final int id, final String invoice, final String thick, final String size, final String quantity) {
 
         validUtils = new ValidUtils();
         validUtils.showProgressDialog(mContext, (Activity) mContext);
@@ -141,6 +143,7 @@ public class InvoiceAdapter extends RecyclerView.Adapter<InvoiceAdapter.MyViewHo
                 params.put("invoice", invoice);
                 params.put("thickness", thick);
                 params.put("size", size);
+                params.put("quantity", quantity);
                 return params;
             }
         };

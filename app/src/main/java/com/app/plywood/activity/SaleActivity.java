@@ -11,6 +11,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -49,21 +51,22 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Random;
 
+import ir.alirezabdn.wp7progress.WP10ProgressBar;
 import spencerstudios.com.bungeelib.Bungee;
 import thebat.lib.validutil.ValidUtils;
 
 public class SaleActivity extends AppCompatActivity implements ActivityCompat.OnRequestPermissionsResultCallback {
 
-    Button btnGenerate;
+    Button btnGenerate, btnAdd;
+    WP10ProgressBar loader;
     int id=0;
     public static int sumTotal=0;
     Spinner spinCustomer;
     String spCustomer, strThick, strSize;
-    TextView tvInvoice, tvDate;
+    TextView tvInvoice, tvDate, tvQty;
     ImageView ivInfo, ivDate, ivAdd;
     Calendar calendar;
     List<String> customerList, size_list, thick_list;
-    public static List<String> get_data;
     ArrayAdapter<String> customerAdapter;
     ValidUtils validUtils;
     public static RecyclerView rvSale;
@@ -72,11 +75,11 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
     InvoiceAdapter invoiceAdapter;
     RecyclerView.LayoutManager mLayoutManager;
     AlertDialog addDialog;
-    public static String invoice, thick, cdate, size;
+    public static String invoice, thick, cdate, size, quantity;
     String COMPANY_URL = Constants.BASE_URL + Constants.GET_COMPANY;
     String CUSTOMER_URL = Constants.BASE_URL + Constants.GET_CUSTOMER;
     String ADD_INVOICE_URL = Constants.BASE_URL + Constants.ADD_INVOICE;
-    //String GEN_INVOICE_URL = Constants.BASE_URL + Constants.GENERATE_INVOICE;
+    String GET_QUANTITY_URL = Constants.BASE_URL + Constants.GET_QUANTITY;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -272,12 +275,14 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
                 dialogBuilder.setView(dialogView);
                 dialogBuilder.setCancelable(false);
 
-                Button btnAdd = dialogView.findViewById(R.id.add_pro_btn);
+                loader = dialogView.findViewById(R.id.loader);
+                btnAdd = dialogView.findViewById(R.id.add_pro_btn);
                 ImageView ivClose = dialogView.findViewById(R.id.add_pro_close);
                 final Spinner spThick = dialogView.findViewById(R.id.add_pro_thick);
                 Spinner spSize = dialogView.findViewById(R.id.add_pro_size);
                 final CustomEditText etPrice = dialogView.findViewById(R.id.add_pro_price);
                 final CustomEditText etQuantity = dialogView.findViewById(R.id.add_pro_quantity);
+                tvQty = dialogView.findViewById(R.id.get_pro_qty);
 
                 addDialog = dialogBuilder.create();
 
@@ -297,6 +302,7 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                         strThick = adapterView.getItemAtPosition(pos).toString();
+                        getQuantity();
                     }
 
                     @Override
@@ -304,6 +310,7 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
 
                     }
                 });
+
                 String[] size = new String[] {
                         "8Ft x 4Ft",
                         "8Ft x 3Ft",
@@ -321,6 +328,7 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
                     @Override
                     public void onItemSelected(AdapterView<?> adapterView, View view, int pos, long l) {
                         strSize = adapterView.getItemAtPosition(pos).toString();
+                        getQuantity();
                     }
 
                     @Override
@@ -390,6 +398,79 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
 
     }
 
+    private void getQuantity() {
+
+        //validUtils.showProgressDialog(this, this);
+        loader.showProgressBar();
+        StringRequest request = new StringRequest(Request.Method.POST, GET_QUANTITY_URL,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                        JSONObject jsonObject = null;
+                        try {
+                                jsonObject = new JSONObject(response);
+
+                                if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("success")) {
+                                    //validUtils.hideProgressDialog();
+                                    loader.hideProgressBar();
+                                    String data = jsonObject.getString("data");
+                                    JSONArray array = new JSONArray(data);
+                                    JSONObject object = array.getJSONObject(0);
+                                    tvQty.setText(object.getString("quantity"));
+                                    btnAdd.setVisibility(View.VISIBLE);
+                                    //validUtils.showToast(SaleActivity.this, jsonObject.getString("message"));
+
+                                } else if (jsonObject.getString("status")
+                                        .equalsIgnoreCase("empty")) {
+                                    //validUtils.hideProgressDialog();
+                                    loader.hideProgressBar();
+                                    tvQty.setText("0");
+                                    btnAdd.setVisibility(View.GONE);
+                                    validUtils.showToast(SaleActivity.this, jsonObject.getString("message"));
+
+                                } else {
+                                    //validUtils.hideProgressDialog();
+                                    loader.hideProgressBar();
+                                    validUtils.showToast(SaleActivity.this, "Something went wrong");
+                                }
+
+                            }
+                        catch (JSONException e) {
+                            e.printStackTrace();
+                            //validUtils.hideProgressDialog();
+                            loader.hideProgressBar();
+                            validUtils.showToast(SaleActivity.this, e.getMessage());
+                        }
+
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        //validUtils.hideProgressDialog();
+                        loader.hideProgressBar();
+                        validUtils.showToast(SaleActivity.this, error.getMessage());
+                    }
+                })
+
+        {
+
+            @Override
+            protected Map<String, String> getParams() {
+
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("thickness", strThick);
+                params.put("size", strSize);
+                return params;
+            }
+        };
+        RequestQueue queue = Volley.newRequestQueue(SaleActivity.this);
+        queue.add(request);
+    }
+
     private void add(int id, String thick, String size, int price, String quantity, String uprice) {
 
         InvoiceData product = new InvoiceData(id, thick, size, price, quantity);
@@ -423,8 +504,8 @@ public class SaleActivity extends AppCompatActivity implements ActivityCompat.On
 
                             if (jsonObject.getString("status")
                                     .equalsIgnoreCase("success")){
-
                                 validUtils.hideProgressDialog();
+                                getQuantity();
                                 validUtils.showToast(SaleActivity.this, jsonObject.getString("message"));
 
                             }else if (jsonObject.getString("status")
