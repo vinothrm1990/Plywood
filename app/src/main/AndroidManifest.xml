@@ -35,14 +35,35 @@
         <activity
             android:name=".activity.GenerateActivity"
             android:parentActivityName=".activity.SaleActivity" />
-        <activity android:name=".activity.CustomerActivity" />
+        <activity
+            android:name=".activity.CustomerActivity"
+            android:parentActivityName=".activity.HomeActivity" />
         <activity
             android:name=".activity.ProductActivity"
             android:parentActivityName=".activity.HomeActivity" />
-        <activity android:name=".activity.AddProductActivity"
-            android:parentActivityName=".activity.ProductActivity"/>
-        <activity android:name=".activity.ListProductActivity"
-            android:parentActivityName=".activity.ProductActivity"/>
+        <activity
+            android:name=".activity.AddProductActivity"
+            android:parentActivityName=".activity.ProductActivity" />
+        <activity
+            android:name=".activity.ListProductActivity"
+            android:parentActivityName=".activity.ProductActivity" />
+        <activity
+            android:name=".activity.AddCustomerActivity"
+            android:parentActivityName=".activity.CustomerActivity" />
+        <activity
+            android:name=".activity.ListCustomerActivity"
+            android:parentActivityName=".activity.CustomerActivity" />
+        <activity
+            android:name=".activity.ViewCustomerDetailActivity"
+            android:parentActivityName=".activity.ListCustomerActivity" />
+        <activity android:name=".activity.VendorActivity"
+            android:parentActivityName=".activity.HomeActivity"/>
+        <activity android:name=".activity.AddVendorActivity"
+            android:parentActivityName=".activity.VendorActivity"/>
+        <activity android:name=".activity.ListVendorActivity"
+            android:parentActivityName=".activity.VendorActivity"/>
+        <activity android:name=".activity.ViewVendorDetailActivity"
+            android:parentActivityName=".activity.ListVendorActivity"/>
     </application>
 
 </manifest>

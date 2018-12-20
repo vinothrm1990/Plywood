@@ -14,6 +14,7 @@ import com.app.plywood.R;
 import com.app.plywood.activity.CustomerActivity;
 import com.app.plywood.activity.SaleActivity;
 import com.app.plywood.activity.ProductActivity;
+import com.app.plywood.activity.VendorActivity;
 import com.app.plywood.data.DashboardMenu;
 import com.bumptech.glide.Glide;
 
@@ -63,7 +64,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
                     mContext.startActivity(new Intent(mContext, CustomerActivity.class));
                     Bungee.shrink(mContext);
                 }else if (i == 4){
-
+                    mContext.startActivity(new Intent(mContext, VendorActivity.class));
+                    Bungee.shrink(mContext);
                 }else if (i == 5){
 
                 }

@@ -19,4 +19,12 @@ public class Constants {
     public static String ADD_PRODUCT = "add_products.php?";
     public static String GET_QUANTITY = "get_quantity.php?";
     public static String GET_PRODUCT = "get_product.php?";
+    public static String ADD_CUSTOMER = "customer_register.php?";
+    public static String REMOVE_CUSTOMER = "delete_customer.php?";
+    public static String VIEW_CUSTOMER = "get_customer.php?";
+    public static String GET_VENDOR = "get_vendor_profile.php?";
+    public static String EDIT_VENDOR = "edit_vendor.php?";
+    public static String ADD_VENDOR = "vendor_register?";
+    public static String VIEW_VENDOR = "get_vendor.php?";
+    public static String REMOVE_VENDOR = "delete_vendor.php?";
 }
