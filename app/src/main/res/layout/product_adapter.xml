@@ -9,7 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
         <android.support.design.widget.FloatingActionButton
-            android:id="@+id/stock_iv_icon"
+            android:id="@+id/pro_iv_icon"
             android:backgroundTint="@color/colorPrimaryDark"
             android:layout_width="wrap_content"
             app1:fabSize="auto"
@@ -18,7 +18,7 @@
             android:layout_margin="@dimen/fab_margin"
             app:src="@drawable/ic_add_product" />
         <TextView
-            android:id="@+id/stock_tv_title"
+            android:id="@+id/pro_tv_title"
             android:layout_marginTop="5dp"
             android:gravity="center"
             android:text="TITLE"

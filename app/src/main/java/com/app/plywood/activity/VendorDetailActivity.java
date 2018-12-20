@@ -21,7 +21,6 @@ import com.android.volley.toolbox.Volley;
 import com.app.plywood.R;
 import com.app.plywood.helper.Constants;
 import com.libizo.CustomEditText;
-import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -32,7 +31,7 @@ import java.util.Map;
 import spencerstudios.com.bungeelib.Bungee;
 import thebat.lib.validutil.ValidUtils;
 
-public class ViewVendorDetailActivity extends AppCompatActivity {
+public class VendorDetailActivity extends AppCompatActivity {
 
     CustomEditText etCompany, etName, etAddress, etPhone, etCity, etState, etPincode;
     TextView tvCompany, tvName, tvAddress, tvPhone, tvCity, tvState, tvPincode;
@@ -45,7 +44,7 @@ public class ViewVendorDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_view_vendor_detail);
+        setContentView(R.layout.activity_vendor_detail);
 
         TextView title = new TextView(getApplicationContext());
         RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT);
@@ -61,22 +60,22 @@ public class ViewVendorDetailActivity extends AppCompatActivity {
 
         validUtils = new ValidUtils();
 
-        tvCompany = findViewById(R.id.cus_det_tv_cname);
-        etCompany = findViewById(R.id.cus_det_et_cname);
-        tvName = findViewById(R.id.cus_det_tv_name);
-        etName = findViewById(R.id.cus_det_et_name);
-        tvAddress = findViewById(R.id.cus_det_tv_address);
-        etAddress = findViewById(R.id.cus_det_et_address);
-        tvPhone = findViewById(R.id.cus_det_tv_phone);
-        etPhone = findViewById(R.id.cus_det_et_phone);
-        tvCity= findViewById(R.id.cus_det_tv_city);
-        etCity= findViewById(R.id.cus_det_et_city);
-        etState= findViewById(R.id.cus_det_et_state);
-        tvState= findViewById(R.id.cus_det_tv_state);
-        etPincode= findViewById(R.id.cus_det_et_pincode);
-        tvPincode= findViewById(R.id.cus_det_tv_pincode);
-        btnEdit = findViewById(R.id.cus_det_btn_edit);
-        btnUpdate = findViewById(R.id.cus_det_btn_update);
+        tvCompany = findViewById(R.id.ven_det_tv_cname);
+        etCompany = findViewById(R.id.ven_det_et_cname);
+        tvName = findViewById(R.id.ven_det_tv_name);
+        etName = findViewById(R.id.ven_det_et_name);
+        tvAddress = findViewById(R.id.ven_det_tv_address);
+        etAddress = findViewById(R.id.ven_det_et_address);
+        tvPhone = findViewById(R.id.ven_det_tv_phone);
+        etPhone = findViewById(R.id.ven_det_et_phone);
+        tvCity= findViewById(R.id.ven_det_tv_city);
+        etCity= findViewById(R.id.ven_det_et_city);
+        tvState= findViewById(R.id.ven_det_tv_state);
+        tvPincode= findViewById(R.id.ven_det_tv_pincode);
+        etState= findViewById(R.id.ven_det_et_state);
+        etPincode= findViewById(R.id.ven_det_et_pincode);
+        btnEdit = findViewById(R.id.ven_det_btn_edit);
+        btnUpdate = findViewById(R.id.ven_det_btn_update);
         layoutEdit = findViewById(R.id.edit_layout);
         layoutNonEdit = findViewById(R.id.nonedit_layout);
 
@@ -132,8 +131,7 @@ public class ViewVendorDetailActivity extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
 
-                        validUtils.showProgressDialog(ViewVendorDetailActivity.this, ViewVendorDetailActivity.this);
-
+                        validUtils.showProgressDialog(VendorDetailActivity.this, VendorDetailActivity.this);
                         StringRequest request = new StringRequest(Request.Method.POST, EDIT_VENDOR_URL,
                                 new Response.Listener<String>() {
                                     @Override
@@ -145,26 +143,31 @@ public class ViewVendorDetailActivity extends AppCompatActivity {
 
                                             if (jsonObject.getString("status")
                                                     .equalsIgnoreCase("success")){
-                                               validUtils.hideProgressDialog();
-                                                startActivity(new Intent(ViewVendorDetailActivity.this, ListVendorActivity.class));
-                                                Bungee.split(ViewVendorDetailActivity.this);
-                                                validUtils.showToast(ViewVendorDetailActivity.this,jsonObject.getString("message"));
-
+                                                validUtils.hideProgressDialog();
+                                                startActivity(new Intent(VendorDetailActivity.this, PurchaseActivity.class));
+                                                Bungee.split(VendorDetailActivity.this);
+                                                validUtils.showToast(VendorDetailActivity.this, jsonObject.getString("message"));
 
                                             }else if (jsonObject.getString("status")
                                                     .equalsIgnoreCase("no data")){
                                                 validUtils.hideProgressDialog();
-                                                validUtils.showToast(ViewVendorDetailActivity.this,jsonObject.getString("message"));
+                                                validUtils.showToast(VendorDetailActivity.this, jsonObject.getString("message"));
+
+                                            }else if (jsonObject.getString("status")
+                                                    .equalsIgnoreCase("failed")){
+                                                validUtils.hideProgressDialog();
+                                                validUtils.showToast(VendorDetailActivity.this, jsonObject.getString("message"));
 
                                             }else {
                                                 validUtils.hideProgressDialog();
-                                                validUtils.showToast(ViewVendorDetailActivity.this,"Something went Wrong");
+                                                validUtils.showToast(VendorDetailActivity.this, "Something went Wrong");
                                             }
 
                                         } catch (JSONException e) {
                                             e.printStackTrace();
                                             validUtils.hideProgressDialog();
-                                            validUtils.showToast(ViewVendorDetailActivity.this,e.getMessage());
+                                            validUtils.showToast(VendorDetailActivity.this, e.getMessage());
+
                                         }
 
                                     }
@@ -173,7 +176,8 @@ public class ViewVendorDetailActivity extends AppCompatActivity {
                                     @Override
                                     public void onErrorResponse(VolleyError error) {
                                         validUtils.hideProgressDialog();
-                                        validUtils.showToast(ViewVendorDetailActivity.this,error.getMessage());
+                                        validUtils.showToast(VendorDetailActivity.this, error.getMessage());
+
                                     }
                                 })
                         {
@@ -200,14 +204,11 @@ public class ViewVendorDetailActivity extends AppCompatActivity {
                                 return params;
                             }
                         };
-                        RequestQueue queue = Volley.newRequestQueue(ViewVendorDetailActivity.this);
+                        RequestQueue queue = Volley.newRequestQueue(VendorDetailActivity.this);
                         queue.add(request);
                     }
                 });
-
-
             }
         });
-
     }
 }

@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import com.app.plywood.R;
 import com.app.plywood.activity.CustomerActivity;
+import com.app.plywood.activity.PurchaseActivity;
 import com.app.plywood.activity.SaleActivity;
 import com.app.plywood.activity.ProductActivity;
 import com.app.plywood.activity.VendorActivity;
@@ -54,12 +55,12 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
                 if (i == 0){
                     mContext.startActivity(new Intent(mContext, ProductActivity.class));
                     Bungee.shrink(mContext);
-                }
-                else if (i == 1){
+                }else if (i == 1){
                     mContext.startActivity(new Intent(mContext, SaleActivity.class));
                     Bungee.shrink(mContext);
                 }else if (i == 2){
-
+                    mContext.startActivity(new Intent(mContext, PurchaseActivity.class));
+                    Bungee.shrink(mContext);
                 }else if (i == 3){
                     mContext.startActivity(new Intent(mContext, CustomerActivity.class));
                     Bungee.shrink(mContext);

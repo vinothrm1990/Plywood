@@ -42,7 +42,6 @@ public class ListVendorActivity extends AppCompatActivity implements ListVendorA
     RecyclerView rvCustomer;
     List<VendorData> vendorList;
     String VIEW_CUSTOMER_URL = Constants.BASE_URL + Constants.VIEW_VENDOR;
-    public static AVLoadingIndicatorView progress;
     ListVendorAdapter vendorAdapter;
     SearchView searchView;
     ValidUtils validUtils;

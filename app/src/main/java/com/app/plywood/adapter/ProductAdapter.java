@@ -71,8 +71,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.MyViewHo
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            tvTitle = itemView.findViewById(R.id.stock_tv_title);
-            ivIcon = itemView.findViewById(R.id.stock_iv_icon);
+            tvTitle = itemView.findViewById(R.id.pro_tv_title);
+            ivIcon = itemView.findViewById(R.id.pro_iv_icon);
         }
     }
 }

@@ -14,7 +14,8 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true">
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/TrasparentTheme">
@@ -28,7 +29,9 @@
             android:name=".activity.HomeActivity"
             android:label="@string/title_activity_home"
             android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".activity.SaleActivity" />
+        <activity
+            android:name=".activity.SaleActivity"
+            android:parentActivityName=".activity.HomeActivity" />
         <activity
             android:name=".activity.CustomerDetailActivity"
             android:parentActivityName=".activity.SaleActivity" />
@@ -56,14 +59,23 @@
         <activity
             android:name=".activity.ViewCustomerDetailActivity"
             android:parentActivityName=".activity.ListCustomerActivity" />
-        <activity android:name=".activity.VendorActivity"
-            android:parentActivityName=".activity.HomeActivity"/>
-        <activity android:name=".activity.AddVendorActivity"
+        <activity
+            android:name=".activity.VendorActivity"
+            android:parentActivityName=".activity.HomeActivity" />
+        <activity
+            android:name=".activity.AddVendorActivity"
+            android:parentActivityName=".activity.VendorActivity" />
+        <activity
+            android:name=".activity.ListVendorActivity"
+            android:parentActivityName=".activity.VendorActivity" />
+        <activity
+            android:name=".activity.ViewVendorDetailActivity"
+            android:parentActivityName=".activity.ListVendorActivity" />
+        <activity
+            android:name=".activity.PurchaseActivity"
+            android:parentActivityName=".activity.HomeActivity" />
+        <activity android:name=".activity.VendorDetailActivity"
             android:parentActivityName=".activity.VendorActivity"/>
-        <activity android:name=".activity.ListVendorActivity"
-            android:parentActivityName=".activity.VendorActivity"/>
-        <activity android:name=".activity.ViewVendorDetailActivity"
-            android:parentActivityName=".activity.ListVendorActivity"/>
     </application>
 
 </manifest>
