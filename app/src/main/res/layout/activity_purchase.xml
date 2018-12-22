@@ -208,7 +208,7 @@
                             android:gravity="center"
                             android:fontFamily="@font/montser_bold"
                             android:textSize="16sp"
-                            android:text="Qty/Tons/Lt"
+                            android:text="Qty/Kg/Lt"
                             android:layout_weight="1"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content" />

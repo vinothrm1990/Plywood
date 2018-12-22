@@ -30,4 +30,5 @@ public class Constants {
     public static String GET_VENDOR_COMPANY = "get_vendor.php?";
     public static String REMOVE_PURCHASE = "remove_purchase.php?";
     public static String ADD_PURCHASE = "add_purchase.php?";
+    public static String ADD_PURCHASE_TOTAL = "purchase_register.php?";
 }

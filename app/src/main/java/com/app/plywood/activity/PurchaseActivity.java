@@ -72,6 +72,7 @@ public class PurchaseActivity extends AppCompatActivity {
     String COMPANY_URL = Constants.BASE_URL + Constants.GET_VENDOR_COMPANY;
     String VENDOR_URL =  Constants.BASE_URL + Constants.GET_VENDOR;
     String ADD_PURCHASE_URL = Constants.BASE_URL + Constants.ADD_PURCHASE;
+    String ADD_PURCHASE_TOTAL_URL = Constants.BASE_URL + Constants.ADD_PURCHASE_TOTAL;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -278,7 +279,7 @@ public class PurchaseActivity extends AppCompatActivity {
                         "Veener",
                         "Firewood",
                         "Glue",
-                        "Finished Veener",
+                        "Face Veener",
                         "Diesel"
                 };
                 product_list = new ArrayList<String>(Arrays.asList(product));
@@ -323,7 +324,7 @@ public class PurchaseActivity extends AppCompatActivity {
                             etLitre.setVisibility(View.GONE);
                             etTon.setVisibility(View.VISIBLE);
 
-                        }else if (strProduct.equalsIgnoreCase("Finished Veener")){
+                        }else if (strProduct.equalsIgnoreCase("Face Veener")){
                             fvsize = new String[]{
                                     "8Ft x 4Ft",
                                     "8Ft x 3Ft",
@@ -378,7 +379,7 @@ public class PurchaseActivity extends AppCompatActivity {
                             String ton = etTon.getText().toString().trim();
                             String litre = etLitre.getText().toString().trim();
 
-                            if (strProduct.equalsIgnoreCase("Finished Veener")){
+                            if (strProduct.equalsIgnoreCase("Face Veener")){
 
                                 int total = 0;
                                 if (strSize.equalsIgnoreCase("8Ft x 4Ft")){
@@ -404,7 +405,29 @@ public class PurchaseActivity extends AppCompatActivity {
                                 add(id, strProduct, strSize, total, quantity, price);
 
                             }else if (strProduct.equalsIgnoreCase("Veener")){
-                                int total = Integer.parseInt(price) * Integer.parseInt(quantity);
+                                int total = 0;
+                                if (strSize.equalsIgnoreCase("4In x 3In")){
+                                    total = (Integer.parseInt(price) * 12) * Integer.parseInt(quantity);
+                                }
+                                else if (strSize.equalsIgnoreCase("3In x 3In")){
+                                    total = (Integer.parseInt(price) * 9) * Integer.parseInt(quantity);
+                                }
+                                else if (strSize.equalsIgnoreCase("3In x 2In")){
+                                    total = (Integer.parseInt(price) * 6) * Integer.parseInt(quantity);
+                                }
+                                else if (strSize.equalsIgnoreCase("3In x 1In")){
+                                    total = (Integer.parseInt(price) * 3) * Integer.parseInt(quantity);
+                                }
+                                else if (strSize.equalsIgnoreCase("2In x 3In")){
+                                    total = (Integer.parseInt(price) * 6) * Integer.parseInt(quantity);
+                                }
+                                else if (strSize.equalsIgnoreCase("2In x 2In")){
+                                    total = (Integer.parseInt(price) * 4) * Integer.parseInt(quantity);
+                                }
+                                else if (strSize.equalsIgnoreCase("2In x 1In")){
+                                    total = (Integer.parseInt(price) * 2) * Integer.parseInt(quantity);
+                                }
+
                                 id++;
                                 add(id, strProduct, strSize, total, quantity, price);
 
@@ -449,7 +472,67 @@ public class PurchaseActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                
+                validUtils.showProgressDialog(PurchaseActivity.this, PurchaseActivity.this);
+                StringRequest request = new StringRequest(Request.Method.POST, ADD_PURCHASE_TOTAL_URL,
+
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+
+                                JSONObject jsonObject = null;
+                                try {
+                                    jsonObject = new JSONObject(response);
+
+                                    if (jsonObject.getString("status")
+                                            .equalsIgnoreCase("success")){
+                                        validUtils.hideProgressDialog();
+                                        validUtils.showToast(PurchaseActivity.this, jsonObject.getString("message"));
+
+                                    }else if (jsonObject.getString("status")
+                                            .equalsIgnoreCase("failed")){
+                                        validUtils.hideProgressDialog();
+                                        validUtils.showToast(PurchaseActivity.this, jsonObject.getString("message"));
+
+                                    }else {
+                                        validUtils.hideProgressDialog();
+                                        validUtils.showToast(PurchaseActivity.this, "Something went wrong");
+                                    }
+
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                    validUtils.hideProgressDialog();
+                                    validUtils.showToast(PurchaseActivity.this, e.getMessage());
+                                }
+
+                            }
+                        },
+                        new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                validUtils.hideProgressDialog();
+                                validUtils.showToast(PurchaseActivity.this, error.getMessage());
+                            }
+                        })
+
+                {
+
+                    @Override
+                    protected Map<String, String> getParams() {
+                        String invoice = etInvoice.getText().toString().trim();
+                        String date = tvDate.getText().toString().trim();
+                        int gst = (sumTotal) * 18/100;
+                        int total = (sumTotal) + gst;
+                        Map<String, String> params = new HashMap<String, String>();
+                        params.put("date", date);
+                        params.put("invoice", invoice);
+                        params.put("gst", String.valueOf(gst));
+                        params.put("grandtotal", String.valueOf(total));
+                        return params;
+                    }
+                };
+                RequestQueue queue = Volley.newRequestQueue(PurchaseActivity.this);
+                queue.add(request);
+
             }
         });
 

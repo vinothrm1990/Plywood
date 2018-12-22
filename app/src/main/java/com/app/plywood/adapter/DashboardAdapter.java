@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.app.plywood.R;
 import com.app.plywood.activity.CustomerActivity;
 import com.app.plywood.activity.PurchaseActivity;
+import com.app.plywood.activity.ReportActivity;
 import com.app.plywood.activity.SaleActivity;
 import com.app.plywood.activity.ProductActivity;
 import com.app.plywood.activity.VendorActivity;
@@ -68,7 +69,8 @@ public class DashboardAdapter extends RecyclerView.Adapter<DashboardAdapter.MyVi
                     mContext.startActivity(new Intent(mContext, VendorActivity.class));
                     Bungee.shrink(mContext);
                 }else if (i == 5){
-
+                    mContext.startActivity(new Intent(mContext, ReportActivity.class));
+                    Bungee.shrink(mContext);
                 }
             }
         });

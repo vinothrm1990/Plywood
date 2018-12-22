@@ -74,8 +74,15 @@
         <activity
             android:name=".activity.PurchaseActivity"
             android:parentActivityName=".activity.HomeActivity" />
-        <activity android:name=".activity.VendorDetailActivity"
-            android:parentActivityName=".activity.VendorActivity"/>
+        <activity
+            android:name=".activity.VendorDetailActivity"
+            android:parentActivityName=".activity.VendorActivity" />
+        <activity
+            android:name=".activity.ReportActivity"
+            android:parentActivityName=".activity.HomeActivity" />
+        <activity android:name=".activity.SalesReportActivity" />
+        <activity android:name=".activity.PurchaseReportActivity" />
+        <activity android:name=".activity.ProductReportActivity"></activity>
     </application>
 
 </manifest>
