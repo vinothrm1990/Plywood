@@ -191,6 +191,8 @@ public class GenerateActivity extends AppCompatActivity {
 
         //open print dialog
         printManager.print(jobName, printAdapter, new PrintAttributes.Builder().build());
+
+
     }
 
 

@@ -58,6 +58,7 @@ public class ReportActivity extends AppCompatActivity {
 
                 R.drawable.ic_reports,
                 R.drawable.ic_reports,
+                R.drawable.ic_reports,
                 R.drawable.ic_reports
 
 
@@ -67,6 +68,8 @@ public class ReportActivity extends AppCompatActivity {
         menu = new ReportMenu("Purchase Report", icons[1]);
         repList.add(menu);
         menu = new ReportMenu("Product Report", icons[2]);
+        repList.add(menu);
+        menu = new ReportMenu("Salary Report", icons[3]);
         repList.add(menu);
 
         repAdapter.notifyDataSetChanged();

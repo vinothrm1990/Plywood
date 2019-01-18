@@ -1,0 +1,285 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <android.support.v7.widget.CardView
+            android:elevation="3dp"
+            app:cardCornerRadius="3dp"
+            app:cardMaxElevation="5dp"
+            app:cardUseCompatPadding="true"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <LinearLayout
+                    android:layout_marginTop="5dp"
+                    android:background="@color/colorPrimaryDark"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:id="@+id/sal_rep_tv_id"
+                        android:text="#"
+                        android:textColor="#FFF"
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="left|center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Veener Sq.Ft"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:textColor="#000"
+                        android:text="Veener Price"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_v_ft"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_v_price"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Dyer Sq.Ft"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:textColor="#000"
+                        android:text="Dyer Price"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_d_ft"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_d_price"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Pressing Sq.Ft"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:textColor="#000"
+                        android:text="Pressing Price"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_p_ft"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_p_price"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:text="Finishing Sq.Ft"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:textColor="#000"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                    <TextView
+                        android:textColor="#000"
+                        android:text="Finishing Price"
+                        android:layout_margin="5dp"
+                        android:textSize="16sp"
+                        android:fontFamily="@font/montser_regular"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent" />
+                </LinearLayout>
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_f_ft"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                    <TextView
+                        android:background="@drawable/layout_bg"
+                        android:id="@+id/sal_rep_tv_f_price"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1.2"
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp" />
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_margin="5dp"
+                    android:weightSum="2"
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+                    <TextView
+                        android:textColor="#000"
+                        android:text="TOTAL :"
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                    <TextView
+                        android:id="@+id/sal_rep_tv_total"
+                        android:textColor="#000"
+                        android:text=""
+                        android:layout_margin="5dp"
+                        android:textSize="18sp"
+                        android:fontFamily="@font/montser_bold"
+                        android:gravity="center"
+                        android:layout_weight="1"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+</RelativeLayout>

@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activity.SalaryReportActivity">
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_margin="5dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:textColor="#000"
+                android:fontFamily="@font/montser_bold"
+                android:textSize="16sp"
+                android:paddingLeft="15dip"
+                android:paddingRight="15dip"
+                android:text="DATE :"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <LinearLayout
+                android:layout_margin="5dp"
+                android:weightSum="2"
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+                <TextView
+                    android:background="@drawable/layout_bg"
+                    android:layout_margin="5dp"
+                    android:id="@+id/sal_rep_tv_date"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/montser_regular"
+                    android:gravity="center"
+                    android:layout_weight="0.4"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp" />
+                <ImageView
+                    android:id="@+id/sal_rep_iv_date"
+                    android:layout_margin="5dp"
+                    android:src="@drawable/ic_calender"
+                    android:layout_gravity="center"
+                    android:layout_weight="1.7"
+                    android:layout_width="match_parent"
+                    android:layout_height="25dp" />
+            </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <android.support.v7.widget.RecyclerView
+                android:visibility="visible"
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:clipToPadding="false"
+                android:scrollbars="vertical"
+                android:padding="5dp"
+                android:layout_height="match_parent"
+                android:id="@+id/rv_sal_rep"/>
+            <TextView
+                android:id="@+id/sal_rep_tv_empty"
+                android:layout_margin="10dp"
+                android:textSize="18sp"
+                android:fontFamily="@font/montser_bold"
+                android:gravity="center"
+                android:text="No Report Available"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </LinearLayout>
+    </LinearLayout>
+</RelativeLayout>

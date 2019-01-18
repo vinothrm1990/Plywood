@@ -31,4 +31,6 @@ public class Constants {
     public static String REMOVE_PURCHASE = "remove_purchase.php?";
     public static String ADD_PURCHASE = "add_purchase.php?";
     public static String ADD_PURCHASE_TOTAL = "purchase_register.php?";
+    public static String ADD_SALARY = "add_salary.php?";
+    public static String GET_SALARY_REPORT = "get_salary_report.php?";
 }

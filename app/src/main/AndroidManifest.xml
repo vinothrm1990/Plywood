@@ -16,6 +16,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
+
         <activity
             android:name=".activity.LoginActivity"
             android:theme="@style/TrasparentTheme">
@@ -80,9 +81,17 @@
         <activity
             android:name=".activity.ReportActivity"
             android:parentActivityName=".activity.HomeActivity" />
-        <activity android:name=".activity.SalesReportActivity" />
-        <activity android:name=".activity.PurchaseReportActivity" />
-        <activity android:name=".activity.ProductReportActivity"></activity>
+        <activity
+            android:name=".activity.SalaryActivity"
+            android:parentActivityName=".activity.HomeActivity" />
+        <activity android:name=".activity.SalesReportActivity"
+            android:parentActivityName=".activity.ReportActivity"/>
+        <activity android:name=".activity.PurchaseReportActivity"
+            android:parentActivityName=".activity.ReportActivity"/>
+        <activity android:name=".activity.ProductReportActivity"
+            android:parentActivityName=".activity.ReportActivity"/>
+        <activity android:name=".activity.SalaryReportActivity"
+            android:parentActivityName=".activity.ReportActivity"/>
     </application>
 
 </manifest>

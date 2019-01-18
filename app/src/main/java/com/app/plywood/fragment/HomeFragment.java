@@ -56,7 +56,9 @@ public class HomeFragment extends Fragment {
                 R.drawable.ic_purchase,
                 R.drawable.ic_customer,
                 R.drawable.ic_vendor,
+                R.drawable.ic_salary,
                 R.drawable.ic_report
+
 
         };
         DashboardMenu menu = new DashboardMenu("Products", icons[0]);
@@ -69,7 +71,9 @@ public class HomeFragment extends Fragment {
         dashList.add(menu);
         menu = new DashboardMenu("Vendors", icons[4]);
         dashList.add(menu);
-        menu = new DashboardMenu("Reports", icons[5]);
+        menu = new DashboardMenu("Salary", icons[5]);
+        dashList.add(menu);
+        menu = new DashboardMenu("Reports", icons[6]);
         dashList.add(menu);
 
         dashboardAdapter.notifyDataSetChanged();

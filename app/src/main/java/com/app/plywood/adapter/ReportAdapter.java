@@ -13,6 +13,7 @@ import android.widget.TextView;
 import com.app.plywood.R;
 import com.app.plywood.activity.ProductReportActivity;
 import com.app.plywood.activity.PurchaseReportActivity;
+import com.app.plywood.activity.SalaryReportActivity;
 import com.app.plywood.activity.SalesReportActivity;
 import com.app.plywood.data.ReportMenu;
 import com.bumptech.glide.Glide;
@@ -59,6 +60,9 @@ public class ReportAdapter extends RecyclerView.Adapter<ReportAdapter.MyViewHold
                     Bungee.shrink(mContext);
                 }else if (i == 2){
                     mContext.startActivity(new Intent(mContext, ProductReportActivity.class));
+                    Bungee.shrink(mContext);
+                }else if (i == 3){
+                    mContext.startActivity(new Intent(mContext, SalaryReportActivity.class));
                     Bungee.shrink(mContext);
                 }
             }
